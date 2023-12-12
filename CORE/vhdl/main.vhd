@@ -149,6 +149,9 @@ begin
         clkm_48MHZ      => clk_video_i,
         clkm_32MHZ      => clk_main_i,
         pcb             => (others => '0'),  -- to do
+        RED             => video_red_o,
+        GREEN           => video_green_o,
+        BLUE            => video_blue_o,
         core_pix_clk    => video_ce_o,
         H_SYNC          => video_hs_o,
 	    V_SYNC          => video_vs_o,
@@ -189,7 +192,7 @@ begin
         RW  => 3,
         GW  => 3,
         BW  => 3,
-        CLKSPD => 38
+        CLKSPD => 32
         
      )         
      port map (
