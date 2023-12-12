@@ -26,8 +26,8 @@ entity clk is
       sys_clk_i       : in  std_logic;   -- expects 100 MHz
       sys_rstn_i      : in  std_logic;   -- Asynchronous, asserted low
 
-      main_clk_o      : out std_logic;   -- Galaga's 18 MHz main clock
-      main_rst_o      : out std_logic;   -- Galaga's reset, synchronized
+      main_clk_o      : out std_logic;   -- 32 MHz main clock
+      main_rst_o      : out std_logic;   -- reset, synchronized
       
       video_clk_o     : out std_logic;   -- video clock 48 MHz
       video_rst_o     : out std_logic    -- video reset, synchronized
@@ -58,14 +58,14 @@ begin
          CLKIN1_PERIOD        => 10.0,       -- INPUT @ 100 MHz
          REF_JITTER1          => 0.010,
          DIVCLK_DIVIDE        => 5,
-         CLKFBOUT_MULT_F      => 36.000,     -- (100 MHz x 36) / 5 = 720 MHz
+         CLKFBOUT_MULT_F      => 48.000,     -- (100 MHz x 48) / 5 = 960 MHz
          CLKFBOUT_PHASE       => 0.000,
          CLKFBOUT_USE_FINE_PS => FALSE,
-         CLKOUT0_DIVIDE_F     => 40.000,     -- 720 MHz / 40.000 = 18 MHz
+         CLKOUT0_DIVIDE_F     => 30.000,     -- 960 MHz / 30.000 = 32 MHz
          CLKOUT0_PHASE        => 0.000,
          CLKOUT0_DUTY_CYCLE   => 0.500,
          CLKOUT0_USE_FINE_PS  => FALSE,
-         CLKOUT1_DIVIDE       => 15,         -- 720 MHz / 15 = 48 MHz
+         CLKOUT1_DIVIDE       => 20,         -- 960 MHz / 20 = 48 MHz
          CLKOUT1_PHASE        => 0.000,
          CLKOUT1_DUTY_CYCLE   => 0.500,
          CLKOUT1_USE_FINE_PS  => FALSE         

@@ -19,6 +19,7 @@ entity main is
    );
    port (
       clk_main_i              : in  std_logic;
+      clk_video_i             : in  std_logic;
       reset_soft_i            : in  std_logic;
       reset_hard_i            : in  std_logic;
       pause_i                 : in  std_logic;
@@ -33,7 +34,7 @@ entity main is
       video_ce_ovl_o          : out std_logic;
       video_red_o             : out std_logic_vector(2 downto 0);
       video_green_o           : out std_logic_vector(2 downto 0);
-      video_blue_o            : out std_logic_vector(1 downto 0);
+      video_blue_o            : out std_logic_vector(2 downto 0);
       video_vs_o              : out std_logic;
       video_hs_o              : out std_logic;
       video_hblank_o          : out std_logic;
@@ -68,9 +69,10 @@ entity main is
        -- Dipswitches
       dsw_a_i                 : in  std_logic_vector(7 downto 0);
       dsw_b_i                 : in  std_logic_vector(7 downto 0);
+      dsw_c_i                 : in  std_logic_vector(7 downto 0);
 
       dn_clk_i                : in  std_logic;
-      dn_addr_i               : in  std_logic_vector(15 downto 0);
+      dn_addr_i               : in  std_logic_vector(24 downto 0);
       dn_data_i               : in  std_logic_vector(7 downto 0);
       dn_wr_i                 : in  std_logic;
 
@@ -125,7 +127,8 @@ constant m65_up_crsr       : integer := 73; --Player up
 constant m65_vert_crsr     : integer := 7;  --Player down
 constant m65_left_crsr     : integer := 74; --Player left
 constant m65_horz_crsr     : integer := 2;  --Player right
-constant m65_space         : integer := 60; --Fire
+constant m65_z             : integer := 12; --Fire
+constant m65_x             : integer := 23; -- ump
 
 
 -- Pause, credit button & test mode
@@ -135,92 +138,58 @@ constant m65_capslock      : integer := 72; --Service Mode
 constant m65_help          : integer := 67; --Help key
 
 begin
-   
-    audio_left_o(15) <= not audio(15);
-    audio_left_o(14 downto 0) <= signed(audio(14 downto 0));
-    audio_right_o(15) <= not audio(15);
-    audio_right_o(14 downto 0) <= signed(audio(14 downto 0));
-   
+  
     options(0) <= osm_control_i(C_MENU_OSMPAUSE);
     options(1) <= osm_control_i(C_MENU_OSMDIM);
     flip_screen <= osm_control_i(C_MENU_FLIP);
     
-    -- if pause_cpu is not asserted, it's safe to enter the service/test mode.
-    -- this prevents undesired state of the game when pause_cpu is asserted whilst self_test is enabled.
-    
-    process (clk_main_i)
-        begin
-        if rising_edge(clk_main_i) then
-            if  not pause_cpu then 
-                    self_test <= '1' when not keyboard_n(m65_capslock) else '0';
-            end if;
-  
-        end if;
-    end process;
 
-    i_bosconian : entity work.bosconian
+    i_ttsj : entity work.taitosj_fpga
     port map (
-    
-    clock_18   => clk_main_i,
-    reset      => reset,
-    
-    video_r    => video_red_o,
-    video_g    => video_green_o,
-    video_b    => video_blue_o,
-    
-    --video_csync => open,
-    video_hsync_n  => video_hs_o,
-    video_vsync_n  => video_vs_o,
-    video_hblank_n => video_hblank_o,
-    video_vblank_n => video_vblank_o,
-    
-    audio       => audio,
-    
-    self_test  => self_test,
-    service    => not keyboard_n(m65_s),
-    coin1      => not keyboard_n(m65_5),
-    coin2      => not keyboard_n(m65_6),
-    start1     => not keyboard_n(m65_1),
-    start2     => not keyboard_n(m65_2),
-    up1        => not joy_1_up_n_i or not keyboard_n(m65_up_crsr),
-    down1      => not joy_1_down_n_i or not keyboard_n(m65_vert_crsr),
-    left1      => not joy_1_left_n_i or not keyboard_n(m65_left_crsr),
-    right1     => not joy_1_right_n_i or not keyboard_n(m65_horz_crsr),
-    fire1      => not joy_1_fire_n_i or not keyboard_n(m65_space),
-    -- player 2 joystick is only active in cocktail/table mode.
-    up2        => not joy_2_up_n_i,
-    down2      => not joy_2_down_n_i,
-    left2      => not joy_2_left_n_i,
-    right2     => not joy_2_right_n_i,
-    fire2      => not joy_2_fire_n_i,
-    
-    -- dip a and b are labelled back to front in MiSTer core, hence this workaround.
-    dip_switch_a    => not dsw_b_i,
-    dip_switch_b    => not dsw_a_i,
-    h_offset   => status(27 downto 24),
-    v_offset   => status(31 downto 28),
-    pause      => pause_cpu or pause_i,
-   
-    --hs_address => hs_address,
-    --hs_data_out => hs_data_out,
-    --hs_data_in => hs_data_in,
-    --hs_write   => hs_write_enable,
-    
-    -- @TODO: ROM loading. For now we will hardcode the ROMs
-    -- No dynamic ROM loading as of yet
-    dn_clk     => dn_clk_i,
-    dn_addr    => dn_addr_i,
-    dn_data    => dn_data_i,
-    dn_wr      => dn_wr_i
- );
- 
+        clkm_48MHZ      => clk_video_i,
+        clkm_32MHZ      => clk_main_i,
+        pcb             => (others => '0'),  -- to do
+        core_pix_clk    => video_ce_o,
+        H_SYNC          => video_hs_o,
+	    V_SYNC          => video_vs_o,
+	    H_BLANK         => video_hblank_o,
+	    V_BLANK         => video_vblank_o,
+        RESET_n         => not reset,
+        pause           => pause_cpu or pause_i,
+        m_service       => keyboard_n(m65_s),
+        m_coina         => keyboard_n(m65_5),
+        m_start1p       => keyboard_n(m65_1),
+        m_right         => joy_1_right_n_i or keyboard_n(m65_horz_crsr),
+        m_left          => joy_1_left_n_i or keyboard_n(m65_left_crsr),
+        m_down          => joy_1_down_n_i or keyboard_n(m65_vert_crsr),
+        m_up            => joy_1_up_n_i or keyboard_n(m65_up_crsr),
+        m_shoot         => joy_1_fire_n_i or keyboard_n(m65_z),
+        m_shoot2        => joy_1_fire_n_i or keyboard_n(m65_x),
+        m_coinb         => keyboard_n(m65_6),
+        m_start2p       => keyboard_n(m65_2),
+        DIP1            => dsw_a_i,
+        DIP2            => dsw_b_i,
+        DIP3            => dsw_c_i,
+        dn_clk          => dn_clk_i,
+        dn_addr         => dn_addr_i,
+        dn_data         => dn_data_i,
+        dn_wr           => dn_wr_i,
+        hs_address      => hs_address,
+        hs_data_out     => hs_data_out,
+        hs_data_in      => hs_data_in,
+        hs_write        => hs_write_enable,
+        audio_l         => audio_left_o,
+	    audio_r         => audio_right_o
+        
+    );
+
     i_pause : entity work.pause
      generic map (
      
         RW  => 3,
         GW  => 3,
-        BW  => 2,
-        CLKSPD => 18
+        BW  => 3,
+        CLKSPD => 38
         
      )         
      port map (

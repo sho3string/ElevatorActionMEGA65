@@ -76,7 +76,7 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 
 constant SCR_WELCOME : string :=
 
-   "Bosconian V0.5.0 (beta)\n" &
+   "Elevator Action V0.5.0 (beta)\n" &
    "-----------------------\n" &
    "\n" &
    "MiSTer port done by Muse in 2023\n\n" &
@@ -185,8 +185,8 @@ constant SEL_CFG_FILE      : std_logic_vector(15 downto 0) := x"0101";
 
 -- START YOUR CONFIGURATION BELOW THIS LINE
 
-constant DIR_START         : string := "/arcade/bosconian";
-constant CFG_FILE          : string := "/arcade/bosconian/boscfg";
+constant DIR_START         : string := "/arcade/elevator";
+constant CFG_FILE          : string := "/arcade/elevator/eacfg";
 
 --------------------------------------------------------------------------------------------------------------------
 -- General configuration settings: Reset, Pause, OSD behavior, Ascal, etc. (Selector 0x0110)
