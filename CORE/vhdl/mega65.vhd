@@ -322,6 +322,16 @@ begin
               main_osm_control_i(C_MENU_MIDWAY_DSWB_2) &
               main_osm_control_i(C_MENU_MIDWAY_DSWB_1) &
               main_osm_control_i(C_MENU_MIDWAY_DSWB_0);
+              
+              -- to do 
+  dsw_c_i <=  '0' &
+              '0' &
+              '0' &
+              '0' &
+              '0' &
+              '0' &
+              '0' &
+              '0';  
    
   --dsw_c_i <=       to do
   
@@ -348,7 +358,7 @@ begin
          
          -- Video output
          -- This is PAL 720x576 @ 50 Hz (pixel clock 27 MHz), but synchronized to main_clk (54 MHz).
-         video_ce_o           => ce_vid,--video_ce,--open,--ce_vid,
+         video_ce_o           => ce_vid,-- 6mhz from MiSTer core
          video_ce_ovl_o       => open,
          video_red_o          => main_video_red,
          video_green_o        => main_video_green,
@@ -541,7 +551,6 @@ begin
       
          -- 0x0000 -- 0000000000000000
          -- 0x7fff -- 0111111111111111
-         
          when C_DEV_CPU_ROM => 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
               qnice_dn_addr(15 downto 0) <= "0" & qnice_dev_addr_i(14 downto 0);   
@@ -570,9 +579,11 @@ begin
               
         -- 0x1c000 -- 00011100000000000000
         -- 0x1c0ff -- 00011100000011111111
+        -- padded
+        -- 0x1cfff -- 00011100111111111111
          when C_DEV_LYR_ROM => 
               qnice_dn_wr   <= qnice_dev_ce_i and qnice_dev_we_i;
-              qnice_dn_addr(16 downto 0) <= "111000000" & qnice_dev_addr_i(7 downto 0);   
+              qnice_dn_addr(16 downto 0) <= "11100" & qnice_dev_addr_i(11 downto 0);   
               qnice_dn_data <= qnice_dev_data_i(7 downto 0);
               
          when others => null;
