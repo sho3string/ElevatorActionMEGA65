@@ -191,51 +191,36 @@ constant C_MENU_VGA_STD       : natural := 21;
 constant C_MENU_VGA_15KHZHSVS : natural := 25;
 constant C_MENU_VGA_15KHZCS   : natural := 26;
 
-constant C_MENU_MIDWAY        : natural := 32;
-constant C_MENU_NAMCO         : natural := 33;
-
--- Midway DIPs
--- Dipswitch B
-constant C_MENU_MIDWAY_DSWB_0 : natural := 38;
-constant C_MENU_MIDWAY_DSWB_1 : natural := 39;
-constant C_MENU_MIDWAY_DSWB_2 : natural := 40;
-constant C_MENU_MIDWAY_DSWB_3 : natural := 41;
-constant C_MENU_MIDWAY_DSWB_4 : natural := 42;
-constant C_MENU_MIDWAY_DSWB_5 : natural := 43;
-constant C_MENU_MIDWAY_DSWB_6 : natural := 44;
-constant C_MENU_MIDWAY_DSWB_7 : natural := 45;
-
 -- Dipswitch A
-constant C_MENU_MIDWAY_DSWA_0 : natural := 47;
-constant C_MENU_MIDWAY_DSWA_1 : natural := 48;
-constant C_MENU_MIDWAY_DSWA_2 : natural := 49;
-constant C_MENU_MIDWAY_DSWA_3 : natural := 50;
-constant C_MENU_MIDWAY_DSWA_4 : natural := 51;
-constant C_MENU_MIDWAY_DSWA_5 : natural := 52;
-constant C_MENU_MIDWAY_DSWA_6 : natural := 53;
-constant C_MENU_MIDWAY_DSWA_7 : natural := 54;
+constant C_MENU_TAITO_DSWA_0 : natural  := 33;
+constant C_MENU_TAITO_DSWA_1 : natural  := 34;
+constant C_MENU_TAITO_DSWA_2 : natural  := 35;
+constant C_MENU_TAITO_DSWA_3 : natural  := 36;
+constant C_MENU_TAITO_DSWA_4 : natural  := 37;
+constant C_MENU_TAITO_DSWA_5 : natural  := 38;
+constant C_MENU_TAITO_DSWA_6 : natural  := 39;
+constant C_MENU_TAITO_DSWA_7 : natural  := 40;
 
+-- Dipswitch B 
+constant C_MENU_TAITO_DSWB_0 : natural  := 42;
+constant C_MENU_TAITO_DSWB_1 : natural  := 43;
+constant C_MENU_TAITO_DSWB_2 : natural  := 44;
+constant C_MENU_TAITO_DSWB_3 : natural  := 45;
+constant C_MENU_TAITO_DSWB_4 : natural  := 46;
+constant C_MENU_TAITO_DSWB_5 : natural  := 47;
+constant C_MENU_TAITO_DSWB_6 : natural  := 48;
+constant C_MENU_TAITO_DSWB_7 : natural  := 49;
 
--- Namco DIPs
--- Dipswitch B
-constant C_MENU_NAMCO_DSWB_0  : natural := 60;
-constant C_MENU_NAMCO_DSWB_1  : natural := 61;
-constant C_MENU_NAMCO_DSWB_2  : natural := 62;
-constant C_MENU_NAMCO_DSWB_3  : natural := 63;
-constant C_MENU_NAMCO_DSWB_4  : natural := 64;
-constant C_MENU_NAMCO_DSWB_5  : natural := 65;
-constant C_MENU_NAMCO_DSWB_6  : natural := 66;
-constant C_MENU_NAMCO_DSWB_7  : natural := 67;
+-- Dipswitch C 
+constant C_MENU_TAITO_DSWC_0 : natural  := 51;
+constant C_MENU_TAITO_DSWC_1 : natural  := 52;
+constant C_MENU_TAITO_DSWC_2 : natural  := 53;
+constant C_MENU_TAITO_DSWC_3 : natural  := 54;
+constant C_MENU_TAITO_DSWC_4 : natural  := 55;
+constant C_MENU_TAITO_DSWC_5 : natural  := 56;
+constant C_MENU_TAITO_DSWC_6 : natural  := 57;
+constant C_MENU_TAITO_DSWC_7 : natural  := 58;
 
--- Dipswitch A
-constant C_MENU_NAMCO_DSWA_0  : natural := 69;
-constant C_MENU_NAMCO_DSWA_1  : natural := 70;
-constant C_MENU_NAMCO_DSWA_2  : natural := 71;
-constant C_MENU_NAMCO_DSWA_3  : natural := 72;
-constant C_MENU_NAMCO_DSWA_4  : natural := 73;
-constant C_MENU_NAMCO_DSWA_5  : natural := 74;
-constant C_MENU_NAMCO_DSWA_6  : natural := 75;
-constant C_MENU_NAMCO_DSWA_7  : natural := 76;
 
 signal old_clk      : std_logic;
 signal ce_vid       : std_logic;
@@ -305,33 +290,32 @@ begin
    video_vblank_o   <= video_vblank;  
    video_ce_o       <= ce_vid;
    
-   dsw_a_i <= main_osm_control_i(C_MENU_MIDWAY_DSWA_7) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_6) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_5) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_4) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_3) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_2) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_1) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWA_0);
+   dsw_a_i <= main_osm_control_i(C_MENU_TAITO_DSWA_7) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_6) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_5) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_4) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_3) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_2) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_1) &
+              main_osm_control_i(C_MENU_TAITO_DSWA_0);
    
-  dsw_b_i <=  main_osm_control_i(C_MENU_MIDWAY_DSWB_7) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_6) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_5) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_4) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_3) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_2) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_1) &
-              main_osm_control_i(C_MENU_MIDWAY_DSWB_0);
+   dsw_b_i <= main_osm_control_i(C_MENU_TAITO_DSWB_7) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_6) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_5) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_4) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_3) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_2) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_1) &
+              main_osm_control_i(C_MENU_TAITO_DSWB_0);
               
-              -- to do 
-  dsw_c_i <=  '0' &
-              '0' &
-              '0' &
-              '0' &
-              '0' &
-              '0' &
-              '0' &
-              '0';  
+   dsw_c_i <= main_osm_control_i(C_MENU_TAITO_DSWC_7) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_6) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_5) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_4) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_3) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_2) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_1) &
+              main_osm_control_i(C_MENU_TAITO_DSWC_0);
    
   --dsw_c_i <=       to do
   
@@ -407,17 +391,6 @@ begin
     process (video_clk) -- 48 MHz
     begin
         if rising_edge(video_clk) then
-            
-            --video_ce       <= '0';
-            --video_ce_ovl_o <= '0';
-
-            --div <= std_logic_vector(unsigned(div) + 1);
-            --if div="000" then
-            --   video_ce <= '1'; -- 6 MHz
-            --end if;
-            
-            --old_clk    <= ce_vid;
-            --video_ce_o <= old_clk and (not ce_vid);
             div <= std_logic_vector(unsigned(div) + 1);
             if div(0) = '1' then
                video_ce_ovl_o <= '1'; -- 24 MHz
@@ -435,7 +408,7 @@ begin
             end if;
 
             video_hs     <= main_video_hs;
-            video_vs     <= main_video_vs;
+            video_vs     <= not main_video_vs;
             video_hblank <= main_video_hblank;
             video_vblank <= main_video_vblank;
             video_de     <= not (main_video_hblank or main_video_vblank);

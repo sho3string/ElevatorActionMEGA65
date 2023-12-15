@@ -268,7 +268,7 @@ constant SEL_CORENAME      : std_logic_vector(15 downto 0) := x"0200";
 
 -- Currently this is only used in the debug console. Use the welcome screen and the
 -- help system to display the name and version of the Galaga core to the end user
-constant CORENAME          : string := "Galaga V1";
+constant CORENAME          : string := "Elevator Action V1";
 
 --------------------------------------------------------------------------------------------------------------------
 -- "Help" menu / Options menu  (Selectors 0x0300 .. 0x0312): DO NOT TOUCH
@@ -320,7 +320,7 @@ constant OPTM_S_SAVING     : string := "<Saving>";          -- the internal writ
 --             Do use a lower case \n. If you forget one of them or if you use upper case, you will run into undefined behavior.
 --          2. Start each line that contains an actual menu item (multi- or single-select) with a Space character,
 --             otherwise you will experience visual glitches.
-constant OPTM_SIZE         : natural := 81;  -- amount of items including empty lines:
+constant OPTM_SIZE         : natural := 63;  -- amount of items including empty lines:
                                              -- needs to be equal to the number of lines in OPTM_ITEMS and amount of items in OPTM_GROUPS
                                              -- IMPORTANT: If SAVE_SETTINGS is true and OPTM_SIZE changes: Make sure to re-generate and
                                              -- and re-distribute the config file. You can make a new one using M2M/tools/make_config.sh
@@ -328,10 +328,10 @@ constant OPTM_SIZE         : natural := 81;  -- amount of items including empty 
 -- Net size of the Options menu on the screen in characters (excluding the frame, which is hardcoded to two characters)
 -- Without submenus: Use OPTM_SIZE as height, otherwise count how large the actually visible main menu is.
 constant OPTM_DX           : natural := 23;
-constant OPTM_DY           : natural := 21;
+constant OPTM_DY           : natural := 31;
 
 constant OPTM_ITEMS        : string :=
-   " Bosconian\n"           &
+   " Elevator Action\n"     &
    "\n"                     &
    " Pause when OSD open\n" &
    " Dim Video after 10s\n" &
@@ -361,53 +361,35 @@ constant OPTM_ITEMS        : string :=
    "\n"                     &
    " Back to main menu\n"   &
    "\n"                     &
-   " Game Setup\n"          &
-   "\n"                     &
-   " Midway version\n"      &
-   " Namco  version\n"      &
-   "\n"                     & 
    " Midway dip switches\n" &
    " DSW A & B\n"           &
    "\n"                     &
-   " 0 - 2 Credits Game\n"  &
-   " 1 - Difficulty A\n"    &
-   " 2 - Difficulty B\n"    &
-   " 3 - Allow Continue\n"  &
-   " 4 - Demo Sounds\n"     &
-   " 5 - Freeze\n"          &
-   " 6 - Unused\n"          &
-   " 7 - Cabinet Type\n"    &
+   " 0 - Bonus Life - A\n"  &
+   " 1 - Bonus Life - B\n"  &
+   " 2 - Free PLay\n"       &
+   " 3 - Lives - A\n"       &
+   " 4 - Lives - B\n"       &
+   " 5 - Unknown\n"         &
+   " 6 - Flip Screen\n"     &
+   " 7 - Cabinet\n"         &
    "\n"                     &
-   " 0 - Coinage A\n"       &
-   " 1 - Coinage B\n"       &
-   " 2 - Coinage C\n"       &
-   " 3 - Bonus Life A\n"    &
-   " 4 - Bonus Life B\n"    &
-   " 5 - Bonus Life C\n"    &
-   " 6 - Lives A\n"         &
-   " 7 - Lives B\n"         &
-   "\n"                     &
-   " Back to main menu\n"   &
-   " Namco  dip switches\n" &
-   " DSW A & B\n"           &
+   " 0 - Coinage A - 1\n"   &
+   " 1 - Coinage A - 2\n"   &
+   " 2 - Coinage A - 3\n"   &
+   " 3 - Coinage A - 4\n"   &
+   " 4 - Coinage B - 1\n"   &
+   " 5 - Coinage B - 2\n"   &
+   " 6 - Coinage B - 3\n"   &
+   " 7 - Coinage B - 4\n"   &
    "\n"                     &
    " 0 - Difficulty A\n"    &
    " 1 - Difficulty B\n"    &
-   " 2 - Allow Continue\n"  &
-   " 3 - Demo Sounds\n"     &
-   " 4 - Freeze\n"          &
-   " 5 - Unused\n"          &
-   " 6 - Unused\n"          &
-   " 7 - Cabinet Type\n"    &
-   "\n"                     &
-   " 0 - Coinage A\n"       &
-   " 1 - Coinage B\n"       &
-   " 2 - Coinage C\n"       &
-   " 3 - Bonus Life A\n"    &
-   " 4 - Bonus Life B\n"    &
-   " 5 - Bonus Life C\n"    &
-   " 6 - Lives A\n"         &
-   " 7 - Lives B\n"         &
+   " 2 - Unknown\n"         &
+   " 3 - Unknown\n"         &
+   " 4 - Coinage Display\n" &
+   " 5 - Year Display\n"    &
+   " 6 - Hit detection\n"   &
+   " 7 - Coin Slots A & B\n"&
    "\n"                     &
    " Back to main menu\n"   &
    "\n"                     &
@@ -424,48 +406,37 @@ constant OPTM_G_HDMI       : integer := 3;
 constant OPTM_G_ROT90      : integer := 4;
 constant OPTM_G_FLIP       : integer := 5;
 constant OPTM_G_CRT        : integer := 6;
--- Midway DIPS --
+-- TAITO DIPS --
 -- Dipswitch B
-constant OPTM_G_MIDWAY_DSWB0      : integer := 7;
-constant OPTM_G_MIDWAY_DSWB1      : integer := 8;
-constant OPTM_G_MIDWAY_DSWB2      : integer := 9;
-constant OPTM_G_MIDWAY_DSWB3      : integer := 10;
-constant OPTM_G_MIDWAY_DSWB4      : integer := 11;
-constant OPTM_G_MIDWAY_DSWB5      : integer := 12;
-constant OPTM_G_MIDWAY_DSWB6      : integer := 13;
-constant OPTM_G_MIDWAY_DSWB7      : integer := 14;
+constant OPTM_G_TAITO_DSWB0      : integer := 7;
+constant OPTM_G_TAITO_DSWB1      : integer := 8;
+constant OPTM_G_TAITO_DSWB2      : integer := 9;
+constant OPTM_G_TAITO_DSWB3      : integer := 10;
+constant OPTM_G_TAITO_DSWB4      : integer := 11;
+constant OPTM_G_TAITO_DSWB5      : integer := 12;
+constant OPTM_G_TAITO_DSWB6      : integer := 13;
+constant OPTM_G_TAITO_DSWB7      : integer := 14;
 -- Dipswitch A
-constant OPTM_G_MIDWAY_DSWA0      : integer := 15;
-constant OPTM_G_MIDWAY_DSWA1      : integer := 16;
-constant OPTM_G_MIDWAY_DSWA2      : integer := 17;
-constant OPTM_G_MIDWAY_DSWA3      : integer := 18;
-constant OPTM_G_MIDWAY_DSWA4      : integer := 19;
-constant OPTM_G_MIDWAY_DSWA5      : integer := 20;
-constant OPTM_G_MIDWAY_DSWA6      : integer := 21;
-constant OPTM_G_MIDWAY_DSWA7      : integer := 22;
-constant OPTM_G_FLIPJ             : integer := 23;
-constant OPTM_G_SOFTW             : integer := 24;
+constant OPTM_G_TAITO_DSWA0      : integer := 15;
+constant OPTM_G_TAITO_DSWA1      : integer := 16;
+constant OPTM_G_TAITO_DSWA2      : integer := 17;
+constant OPTM_G_TAITO_DSWA3      : integer := 18;
+constant OPTM_G_TAITO_DSWA4      : integer := 19;
+constant OPTM_G_TAITO_DSWA5      : integer := 20;
+constant OPTM_G_TAITO_DSWA6      : integer := 21;
+constant OPTM_G_TAITO_DSWA7      : integer := 22;
+-- Dipswitch C
+constant OPTM_G_TAITO_DSWC0      : integer := 23;
+constant OPTM_G_TAITO_DSWC1      : integer := 24;
+constant OPTM_G_TAITO_DSWC2      : integer := 25;
+constant OPTM_G_TAITO_DSWC3      : integer := 26;
+constant OPTM_G_TAITO_DSWC4      : integer := 27;
+constant OPTM_G_TAITO_DSWC5      : integer := 28;
+constant OPTM_G_TAITO_DSWC6      : integer := 29;
+constant OPTM_G_TAITO_DSWC7      : integer := 31;
 
--- Namco DIPS --
--- Dipswitch B
-constant OPTM_G_NAMCO_DSWB0       : integer := 25;
-constant OPTM_G_NAMCO_DSWB1       : integer := 26;
-constant OPTM_G_NAMCO_DSWB2       : integer := 27;
-constant OPTM_G_NAMCO_DSWB3       : integer := 28;
-constant OPTM_G_NAMCO_DSWB4       : integer := 29;
-constant OPTM_G_NAMCO_DSWB5       : integer := 30;
-constant OPTM_G_NAMCO_DSWB6       : integer := 31;
-constant OPTM_G_NAMCO_DSWB7       : integer := 32;
--- Dipswitch A
-constant OPTM_G_NAMCO_DSWA0       : integer := 33;
-constant OPTM_G_NAMCO_DSWA1       : integer := 34;
-constant OPTM_G_NAMCO_DSWA2       : integer := 35;
-constant OPTM_G_NAMCO_DSWA3       : integer := 36;
-constant OPTM_G_NAMCO_DSWA4       : integer := 37;
-constant OPTM_G_NAMCO_DSWA5       : integer := 38;
-constant OPTM_G_NAMCO_DSWA6       : integer := 39;
-constant OPTM_G_NAMCO_DSWA7       : integer := 40;
-constant OPTM_G_VGA_MODES         : integer := 41;
+constant OPTM_G_FLIPJ            : integer := 32;
+constant OPTM_G_VGA_MODES        : integer := 33;
 
 -- !!! DO NOT TOUCH !!!
 type OPTM_GTYPE is array (0 to OPTM_SIZE - 1) of integer range 0 to 2**OPTM_GTC- 1;
@@ -494,7 +465,7 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_SUBMENU,
                                              OPTM_G_HEADLINE,
                                              OPTM_G_LINE,
-                                             OPTM_G_VGA_MODES     + OPTM_G_STDSEL,
+                                             OPTM_G_VGA_MODES + OPTM_G_STDSEL,
                                              OPTM_G_LINE,
                                              OPTM_G_TEXT,
                                              OPTM_G_LINE,
@@ -502,59 +473,42 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_VGA_MODES,
                                              OPTM_G_LINE,
                                              OPTM_G_CLOSE         + OPTM_G_SUBMENU,
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Headline "Game Setup"
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_SOFTW,                                              -- Midway Software
-                                             OPTM_G_SOFTW + OPTM_G_STDSEL,                              -- Namco Software
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_SUBMENU,                                            -- Dipswitch B Submenu start
-                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Dipswitch B Title
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_MIDWAY_DSWB0  + OPTM_G_SINGLESEL,                   -- 2 Credits Game
-                                             OPTM_G_MIDWAY_DSWB1  + OPTM_G_SINGLESEL,                   -- Difficulty A \
-                                             OPTM_G_MIDWAY_DSWB2  + OPTM_G_SINGLESEL,                   -- Difficulty B / 
-                                             OPTM_G_MIDWAY_DSWB3  + OPTM_G_SINGLESEL,                   -- Allow Continue
-                                             OPTM_G_MIDWAY_DSWB4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Demo Sounds
-                                             OPTM_G_MIDWAY_DSWB5  + OPTM_G_SINGLESEL,                   -- Freeze
-                                             OPTM_G_MIDWAY_DSWB6  + OPTM_G_SINGLESEL,                   -- Unused
-                                             OPTM_G_MIDWAY_DSWB7  + OPTM_G_SINGLESEL,                   -- Cabinet
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_MIDWAY_DSWA0  + OPTM_G_SINGLESEL,                   -- Coinage A \
-                                             OPTM_G_MIDWAY_DSWA1  + OPTM_G_SINGLESEL,                   -- Coinage B  |
-                                             OPTM_G_MIDWAY_DSWA2  + OPTM_G_SINGLESEL,                   -- Coinage C / 
-                                             OPTM_G_MIDWAY_DSWA3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Bonus Life A \
-                                             OPTM_G_MIDWAY_DSWA4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Bonus Life B  |
-                                             OPTM_G_MIDWAY_DSWA5  + OPTM_G_SINGLESEL,                   -- Bonus Life C /
-                                             OPTM_G_MIDWAY_DSWA6  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   -- Lives A \
-                                             OPTM_G_MIDWAY_DSWA7  + OPTM_G_SINGLESEL,                   -- Lives B /
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu
-                                             OPTM_G_SUBMENU,                                            -- Dipswitch B Submenu start
-                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Dipswitch B Title
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_NAMCO_DSWB0  + OPTM_G_SINGLESEL,                    -- Difficulty A \
-                                             OPTM_G_NAMCO_DSWB1  + OPTM_G_SINGLESEL,                    -- Difficulty B / 
-                                             OPTM_G_NAMCO_DSWB2  + OPTM_G_SINGLESEL,                    -- Allow Continue
-                                             OPTM_G_NAMCO_DSWB3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,    -- Demo Sounds
-                                             OPTM_G_NAMCO_DSWB4  + OPTM_G_SINGLESEL,                    -- Freeze
-                                             OPTM_G_NAMCO_DSWB5  + OPTM_G_SINGLESEL,                    -- Rack Test
-                                             OPTM_G_NAMCO_DSWB6  + OPTM_G_SINGLESEL,                    -- Unused
-                                             OPTM_G_NAMCO_DSWB7  + OPTM_G_SINGLESEL,                    -- Cabinet
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_NAMCO_DSWA0  + OPTM_G_SINGLESEL,                    -- Coinage A \
-                                             OPTM_G_NAMCO_DSWA1  + OPTM_G_SINGLESEL,                    -- Coinage B  |
-                                             OPTM_G_NAMCO_DSWA2  + OPTM_G_SINGLESEL,                    -- Coinage C / 
-                                             OPTM_G_NAMCO_DSWA3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,    -- Bonus Life A \
-                                             OPTM_G_NAMCO_DSWA4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,    -- Bonus Life B  |
-                                             OPTM_G_NAMCO_DSWA5  + OPTM_G_SINGLESEL,                    -- Bonus Life C /
-                                             OPTM_G_NAMCO_DSWA6  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,    -- Lives A \
-                                             OPTM_G_NAMCO_DSWA7  + OPTM_G_SINGLESEL,                    -- Lives B /
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close submenu / back to main menu
-                                             OPTM_G_LINE,                                               -- Line
-                                             OPTM_G_CLOSE                                               -- Close Menu
+                                             OPTM_G_LINE,                                             
+                                             OPTM_G_SUBMENU,                                           -- Dipswitch A Submenu start
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                            -- Dipswitch A Title
+                                             OPTM_G_LINE,                                              
+                                             OPTM_G_TAITO_DSWA0  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA1  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA2  + OPTM_G_SINGLESEL,                  
+                                             OPTM_G_TAITO_DSWA3  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA4  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA5  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA6  + OPTM_G_SINGLESEL,                   
+                                             OPTM_G_TAITO_DSWA7  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   
+                                             OPTM_G_LINE,                                              
+                                             OPTM_G_TAITO_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   
+                                             OPTM_G_TAITO_DSWB1  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB2  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB5  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB6  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_TAITO_DSWB7  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
+                                             OPTM_G_LINE,                                              
+                                             OPTM_G_TAITO_DSWC0  + OPTM_G_SINGLESEL,   
+                                             OPTM_G_TAITO_DSWC1  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC2  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC3  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC4  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC5  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC6  + OPTM_G_SINGLESEL,
+                                             OPTM_G_TAITO_DSWC7  + OPTM_G_SINGLESEL,
+                                             OPTM_G_LINE,                                              -- Line                                          
+                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                            -- Close submenu / back to main menu
+                                             OPTM_G_LINE,                                              -- Line
+                                             OPTM_G_CLOSE                                              -- Close Menu
                                            );
+
 
 
 --------------------------------------------------------------------------------------------------------------------
