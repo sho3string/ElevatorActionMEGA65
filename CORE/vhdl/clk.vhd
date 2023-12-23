@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------------------------------------
--- Galaga Arcade Core for the MEGA65 
+-- Elevator Action Arcade Core for the MEGA65 
 --
 -- Clock Generator using the Xilinx specific MMCME2_ADV:
 --
--- The MiSTer Galaga core needs these clocks:
+-- The MiSTer Elevator Action core needs these clocks:
 --
---    18 MHz main clock
+--    21 MHz main clock
 --    48 MHz video clock
 --
--- Galaga port done by Samuel P ( Muse ) in 2023
+-- Elevator Action port done by Samuel P ( Muse ) in 2023
 -- MiSTer2MEGA65 done by sy2002 and MJoergen in 2022 and licensed under GPL v3
 -------------------------------------------------------------------------------------------------------------
 
@@ -56,16 +56,18 @@ begin
          COMPENSATION         => "ZHOLD",
          STARTUP_WAIT         => FALSE,
          CLKIN1_PERIOD        => 10.0,       -- INPUT @ 100 MHz
+         CLKIN2_PERIOD        => 10.0, 
          REF_JITTER1          => 0.010,
+         REF_JITTER2          => 0.010,
          DIVCLK_DIVIDE        => 5,
          CLKFBOUT_MULT_F      => 48.000,     -- (100 MHz x 48) / 5 = 960 MHz
          CLKFBOUT_PHASE       => 0.000,
          CLKFBOUT_USE_FINE_PS => FALSE,
-         CLKOUT0_DIVIDE_F     => 30.000,     -- 960 MHz / 30.000 = 32 MHz
+         CLKOUT0_DIVIDE_F     => 20.000,     -- 960 MHz / 20.000 = 48 MHz
          CLKOUT0_PHASE        => 0.000,
          CLKOUT0_DUTY_CYCLE   => 0.500,
          CLKOUT0_USE_FINE_PS  => FALSE,
-         CLKOUT1_DIVIDE       => 20,         -- 960 MHz / 20 = 48 MHz
+         CLKOUT1_DIVIDE       => 30,         -- 960 MHz / 30 = 32 MHz
          CLKOUT1_PHASE        => 0.000,
          CLKOUT1_DUTY_CYCLE   => 0.500,
          CLKOUT1_USE_FINE_PS  => FALSE         
@@ -73,8 +75,8 @@ begin
       port map (
          -- Output clocks
          CLKFBOUT            => clkfb_main_mmcm,
-         CLKOUT0             => main_clk_mmcm,
-         CLKOUT1             => video_clk_mmcm,
+         CLKOUT0             => video_clk_mmcm,
+         CLKOUT1             => main_clk_mmcm,
          -- Input clock control
          CLKFBIN             => clkfb_main,
          CLKIN1              => sys_clk_i,

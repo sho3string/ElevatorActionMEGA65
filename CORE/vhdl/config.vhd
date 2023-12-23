@@ -77,18 +77,18 @@ type WHS_RECORD_ARRAY_TYPE is array (0 to WHS_RECORDS - 1) of WHS_RECORD_TYPE;
 constant SCR_WELCOME : string :=
 
    "Elevator Action V0.5.0 (beta)\n" &
-   "-----------------------\n" &
+   "-----------------------------\n" &
    "\n" &
-   "MiSTer port done by Muse in 2023\n\n" &
+   "MiSTer port by Muse in 2023\n\n" &
 
    -- We are not insisting. But it would be nice if you gave us credit for MiSTer2MEGA65 by leaving these lines in
-   "Powered by MiSTer2MEGA65 Ver 1.0\n"   &
+   "Powered by MiSTer2MEGA65 V1.0\n"      &
    "By sy2002 and MJoergen in 2022\n"     &
    "\n\n"                                 &
    "Credits  : Press '5' or '6'\n"        & 
    "Start    : Press '1' or '2'\n"        &
    "Pause    : Press 'p'\n"               &
-   "Controls : Joy 1 or arrows & space\n" &
+   "Controls : Joy 1,arrows & z x\n"      &
    "Svc 1    : Press 's' \n"              &
    "Svc Mode : Caps-Lock on\n"            &
    "\n\n    Press Space to continue.\n"; 
@@ -267,7 +267,7 @@ constant SEL_CORENAME      : std_logic_vector(15 downto 0) := x"0200";
 -- START YOUR CONFIGURATION BELOW THIS LINE
 
 -- Currently this is only used in the debug console. Use the welcome screen and the
--- help system to display the name and version of the Galaga core to the end user
+-- help system to display the name and version of the Elevator Action core to the end user
 constant CORENAME          : string := "Elevator Action V1";
 
 --------------------------------------------------------------------------------------------------------------------
@@ -320,7 +320,7 @@ constant OPTM_S_SAVING     : string := "<Saving>";          -- the internal writ
 --             Do use a lower case \n. If you forget one of them or if you use upper case, you will run into undefined behavior.
 --          2. Start each line that contains an actual menu item (multi- or single-select) with a Space character,
 --             otherwise you will experience visual glitches.
-constant OPTM_SIZE         : natural := 63;  -- amount of items including empty lines:
+constant OPTM_SIZE         : natural := 93;  -- amount of items including empty lines:
                                              -- needs to be equal to the number of lines in OPTM_ITEMS and amount of items in OPTM_GROUPS
                                              -- IMPORTANT: If SAVE_SETTINGS is true and OPTM_SIZE changes: Make sure to re-generate and
                                              -- and re-distribute the config file. You can make a new one using M2M/tools/make_config.sh
@@ -328,7 +328,7 @@ constant OPTM_SIZE         : natural := 63;  -- amount of items including empty 
 -- Net size of the Options menu on the screen in characters (excluding the frame, which is hardcoded to two characters)
 -- Without submenus: Use OPTM_SIZE as height, otherwise count how large the actually visible main menu is.
 constant OPTM_DX           : natural := 23;
-constant OPTM_DY           : natural := 31;
+constant OPTM_DY           : natural := 25;
 
 constant OPTM_ITEMS        : string :=
    " Elevator Action\n"     &
@@ -361,39 +361,69 @@ constant OPTM_ITEMS        : string :=
    "\n"                     &
    " Back to main menu\n"   &
    "\n"                     &
-   " Midway dip switches\n" &
-   " DSW A & B\n"           &
+   " Dip Switches\n"        &
+   "\n"                     &           
+   " Dip switch A\n"        &
+   " DSW A\n"               &
    "\n"                     &
-   " 0 - Bonus Life - A\n"  &
-   " 1 - Bonus Life - B\n"  &
-   " 2 - Free PLay\n"       &
-   " 3 - Lives - A\n"       &
-   " 4 - Lives - B\n"       &
-   " 5 - Unknown\n"         &
-   " 6 - Flip Screen\n"     &
-   " 7 - Cabinet\n"         &
-   "\n"                     &
-   " 0 - Coinage A - 1\n"   &
-   " 1 - Coinage A - 2\n"   &
-   " 2 - Coinage A - 3\n"   &
-   " 3 - Coinage A - 4\n"   &
-   " 4 - Coinage B - 1\n"   &
-   " 5 - Coinage B - 2\n"   &
-   " 6 - Coinage B - 3\n"   &
-   " 7 - Coinage B - 4\n"   &
-   "\n"                     &
-   " 0 - Difficulty A\n"    &
-   " 1 - Difficulty B\n"    &
-   " 2 - Unknown\n"         &
-   " 3 - Unknown\n"         &
-   " 4 - Coinage Display\n" &
-   " 5 - Year Display\n"    &
-   " 6 - Hit detection\n"   &
-   " 7 - Coin Slots A & B\n"&
+   " Bonus Life - A\n"      &
+   " Bonus Life - B\n"      &
+   " Free Play\n"           &
+   " Lives - A\n"           &
+   " Lives - B\n"           &
+   " Unknown\n"             &
+   " Flip Screen\n"         &
+   " Cabinet\n"             &
    "\n"                     &
    " Back to main menu\n"   &
    "\n"                     &
-   " Close Menu\n";
+   " Dip switch B\n"        &
+   " DSW B\n"               &
+   "\n"                     &
+   " Coinage A - 1\n"       &
+   " Coinage A - 2\n"       &
+   " Coinage A - 3\n"       &
+   " Coinage A - 4\n"       &
+   " Coinage B - 1\n"       &
+   " Coinage B - 2\n"       &
+   " Coinage B - 3\n"       &
+   " Coinage B - 4\n"       &
+   "\n"                     &
+   " Back to main menu\n"   &
+   "\n"                     &
+   " Dip switch C\n"        &
+   " DSW C\n"               &
+   "\n"                     &
+   " Difficulty A\n"        &
+   " Difficulty B\n"        &
+   " Unknown\n"             &
+   " Unknown\n"             &
+   " Coinage Display\n"     &
+   " Year Display\n"        &
+   " Hit detection\n"       &
+   " Coin Slots A & B\n"    &
+   "\n"                     &
+   " Back to main menu\n"   &
+   "\n"                     &
+   " Misc Settings\n"       &
+   "\n"                     & 
+   " Auto jump\n"           &
+   " Jump menu\n"           &
+   "\n"                     &
+   " Disable timer\n"       &
+   " 0.00s\n"               &
+   " 0.15s\n"               &
+   " 0.20s\n"               &
+   " 0.25s\n"				&
+   " 0.30s\n"               &
+   " 0.35s\n"               &
+   " 0.40s\n"               &
+   " 0.45s\n"               &
+   " 0.50s\n"               &
+   "\n"                     &
+   " Back to main menu\n"   &
+   "\n"                     &
+   " Close Menu\n";         
 
 -- define your own constants here and choose meaningful names
 -- make sure that your first group uses the value 1 (0 means "no menu item", such as text and line),
@@ -438,6 +468,9 @@ constant OPTM_G_TAITO_DSWC7      : integer := 31;
 constant OPTM_G_FLIPJ            : integer := 32;
 constant OPTM_G_VGA_MODES        : integer := 33;
 
+-- Bombtrigger
+constant OPTM_G_BOMB_TRIG        : natural := 34;
+
 -- !!! DO NOT TOUCH !!!
 type OPTM_GTYPE is array (0 to OPTM_SIZE - 1) of integer range 0 to 2**OPTM_GTC- 1;
 
@@ -473,9 +506,11 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_VGA_MODES,
                                              OPTM_G_LINE,
                                              OPTM_G_CLOSE         + OPTM_G_SUBMENU,
+                                             OPTM_G_LINE, 
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,
                                              OPTM_G_LINE,                                             
-                                             OPTM_G_SUBMENU,                                           -- Dipswitch A Submenu start
-                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                            -- Dipswitch A Title
+                                             OPTM_G_SUBMENU,                                         -- Dipswitch A Submenu start
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                          -- Dipswitch A Title
                                              OPTM_G_LINE,                                              
                                              OPTM_G_TAITO_DSWA0  + OPTM_G_SINGLESEL,                   
                                              OPTM_G_TAITO_DSWA1  + OPTM_G_SINGLESEL,                   
@@ -485,16 +520,26 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_TAITO_DSWA5  + OPTM_G_SINGLESEL,                   
                                              OPTM_G_TAITO_DSWA6  + OPTM_G_SINGLESEL,                   
                                              OPTM_G_TAITO_DSWA7  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   
+                                             OPTM_G_LINE,                                              -- Line                                          
+                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                            -- Close submenu / back to main menu
+                                             OPTM_G_LINE,                                              -- Line
+                                             OPTM_G_SUBMENU,                                           -- Dipswitch B Submenu start
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                            -- Dipswitch B Title
                                              OPTM_G_LINE,                                              
-                                             OPTM_G_TAITO_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   
-                                             OPTM_G_TAITO_DSWB1  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB2  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB5  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB6  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_TAITO_DSWB7  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,
-                                             OPTM_G_LINE,                                              
+                                             OPTM_G_TAITO_DSWB0  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB1  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB2  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                  
+                                             OPTM_G_TAITO_DSWB3  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB4  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB5  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB6  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,                   
+                                             OPTM_G_TAITO_DSWB7  + OPTM_G_SINGLESEL + OPTM_G_STDSEL,   
+                                             OPTM_G_LINE,                                              -- Line                                          
+                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                            -- Close submenu / back to main menu
+                                             OPTM_G_LINE,
+                                             OPTM_G_SUBMENU,                                           -- Dipswitch C Submenu start
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                            -- Dipswitch C Title
+                                             OPTM_G_LINE, 
                                              OPTM_G_TAITO_DSWC0  + OPTM_G_SINGLESEL,   
                                              OPTM_G_TAITO_DSWC1  + OPTM_G_SINGLESEL,
                                              OPTM_G_TAITO_DSWC2  + OPTM_G_SINGLESEL,
@@ -502,11 +547,29 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_TAITO_DSWC4  + OPTM_G_SINGLESEL,
                                              OPTM_G_TAITO_DSWC5  + OPTM_G_SINGLESEL,
                                              OPTM_G_TAITO_DSWC6  + OPTM_G_SINGLESEL,
-                                             OPTM_G_TAITO_DSWC7  + OPTM_G_SINGLESEL,
-                                             OPTM_G_LINE,                                              -- Line                                          
-                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                            -- Close submenu / back to main menu
-                                             OPTM_G_LINE,                                              -- Line
-                                             OPTM_G_CLOSE                                              -- Close Menu
+                                             OPTM_G_TAITO_DSWC7  + OPTM_G_SINGLESEL,  
+                                             OPTM_G_LINE,
+                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,  
+                                             OPTM_G_LINE,
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                          
+                                             OPTM_G_LINE,        
+                                             OPTM_G_SUBMENU,                                            -- Bombtrigger sub menu
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Bonbtrigger title
+                                             OPTM_G_LINE,                                               -- Line
+                                             OPTM_G_BOMB_TRIG,                                          -- bombtrigger enable
+                                             OPTM_G_BOMB_TRIG,                                          -- 0ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 150ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 200ms
+                                             OPTM_G_BOMB_TRIG    + OPTM_G_STDSEL,                       -- 250ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 300ms 
+                                             OPTM_G_BOMB_TRIG,                                          -- 350ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 400ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 450ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 500ms
+                                             OPTM_G_LINE,                                               -- Line
+                                             OPTM_G_CLOSE + OPTM_G_SUBMENU,                             -- Close Sub Menu 
+                                             OPTM_G_LINE,                                               -- Line                                          
+                                             OPTM_G_CLOSE                                               -- Close Menu
                                            );
 
 

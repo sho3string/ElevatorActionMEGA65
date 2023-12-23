@@ -41,9 +41,7 @@ constant QNICE_FIRMWARE           : string  := QNICE_FIRMWARE_M2M;
 -- then add all the clocks speeds here by adding more constants.
 ----------------------------------------------------------------------------------------------------------
 
--- Galaga core's clock speed
--- Actual clock is 18_432 Mhz ( see MAME driver - galaga.cpp ).
--- MiSTer uses 18Mhz
+
 constant CORE_CLK_SPEED       : natural := 32_000_000;   -- Main clock is 32mhz 
 
 -- System clock speed (crystal that is driving the FPGA) and QNICE clock speed
@@ -58,7 +56,7 @@ constant QNICE_CLK_SPEED      : natural := 50_000_000;   -- a change here has de
 -- Rendering constants (in pixels)
 --    VGA_*   size of the core's target output post scandoubler
 --    FONT_*  size of one OSM character
-constant VGA_DX               : natural := 778; -- verify this , arcade_video in MiSTer core uses this instead of 288
+constant VGA_DX               : natural := 512; -- verify this , arcade_video in MiSTer core uses this instead of 288
 constant VGA_DY               : natural := 448;
 constant FONT_FILE            : string  := "../font/Anikki-16x16-m2m.rom";
 constant FONT_DX              : natural := 16;

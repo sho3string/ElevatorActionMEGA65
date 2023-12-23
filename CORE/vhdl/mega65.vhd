@@ -24,8 +24,8 @@ port (
    RESET_M2M_N             : in  std_logic;              -- Debounced system reset in system clock domain
 
    -- Share clock and reset with the framework
-   main_clk_o              : out std_logic;              -- Galaga's 18 MHz main clock
-   main_rst_o              : out std_logic;              -- Galaga's reset, synchronized
+   main_clk_o              : out std_logic;              -- 32 MHz main clock
+   main_rst_o              : out std_logic;              -- reset, synchronized
    
    video_clk_o             : out std_logic;              -- video clock 48 MHz
    video_rst_o             : out std_logic;              -- video reset, synchronized
@@ -165,7 +165,7 @@ signal video_rst           : std_logic;
 -- main_clk (MiSTer core's clock)
 ---------------------------------------------------------------------------------------------
 
--- Unprocessed video output from the Galaga core
+-- Unprocessed video output from the core
 signal main_video_red      : std_logic_vector(2 downto 0);   
 signal main_video_green    : std_logic_vector(2 downto 0);
 signal main_video_blue     : std_logic_vector(2 downto 0);
@@ -192,35 +192,34 @@ constant C_MENU_VGA_15KHZHSVS : natural := 25;
 constant C_MENU_VGA_15KHZCS   : natural := 26;
 
 -- Dipswitch A
-constant C_MENU_TAITO_DSWA_0 : natural  := 33;
-constant C_MENU_TAITO_DSWA_1 : natural  := 34;
-constant C_MENU_TAITO_DSWA_2 : natural  := 35;
-constant C_MENU_TAITO_DSWA_3 : natural  := 36;
-constant C_MENU_TAITO_DSWA_4 : natural  := 37;
-constant C_MENU_TAITO_DSWA_5 : natural  := 38;
-constant C_MENU_TAITO_DSWA_6 : natural  := 39;
-constant C_MENU_TAITO_DSWA_7 : natural  := 40;
+constant C_MENU_TAITO_DSWA_0 : natural  := 35;
+constant C_MENU_TAITO_DSWA_1 : natural  := 36;
+constant C_MENU_TAITO_DSWA_2 : natural  := 37;
+constant C_MENU_TAITO_DSWA_3 : natural  := 38;
+constant C_MENU_TAITO_DSWA_4 : natural  := 39;
+constant C_MENU_TAITO_DSWA_5 : natural  := 40;
+constant C_MENU_TAITO_DSWA_6 : natural  := 41;
+constant C_MENU_TAITO_DSWA_7 : natural  := 42;
 
--- Dipswitch B 
-constant C_MENU_TAITO_DSWB_0 : natural  := 42;
-constant C_MENU_TAITO_DSWB_1 : natural  := 43;
-constant C_MENU_TAITO_DSWB_2 : natural  := 44;
-constant C_MENU_TAITO_DSWB_3 : natural  := 45;
-constant C_MENU_TAITO_DSWB_4 : natural  := 46;
-constant C_MENU_TAITO_DSWB_5 : natural  := 47;
-constant C_MENU_TAITO_DSWB_6 : natural  := 48;
-constant C_MENU_TAITO_DSWB_7 : natural  := 49;
+-- Dipswitch B
+constant C_MENU_TAITO_DSWB_0 : natural  := 49;
+constant C_MENU_TAITO_DSWB_1 : natural  := 50;
+constant C_MENU_TAITO_DSWB_2 : natural  := 51;
+constant C_MENU_TAITO_DSWB_3 : natural  := 52;
+constant C_MENU_TAITO_DSWB_4 : natural  := 53;
+constant C_MENU_TAITO_DSWB_5 : natural  := 54;
+constant C_MENU_TAITO_DSWB_6 : natural  := 55;
+constant C_MENU_TAITO_DSWB_7 : natural  := 56;
 
 -- Dipswitch C 
-constant C_MENU_TAITO_DSWC_0 : natural  := 51;
-constant C_MENU_TAITO_DSWC_1 : natural  := 52;
-constant C_MENU_TAITO_DSWC_2 : natural  := 53;
-constant C_MENU_TAITO_DSWC_3 : natural  := 54;
-constant C_MENU_TAITO_DSWC_4 : natural  := 55;
-constant C_MENU_TAITO_DSWC_5 : natural  := 56;
-constant C_MENU_TAITO_DSWC_6 : natural  := 57;
-constant C_MENU_TAITO_DSWC_7 : natural  := 58;
-
+constant C_MENU_TAITO_DSWC_0 : natural  := 63;
+constant C_MENU_TAITO_DSWC_1 : natural  := 64;
+constant C_MENU_TAITO_DSWC_2 : natural  := 65;
+constant C_MENU_TAITO_DSWC_3 : natural  := 66;
+constant C_MENU_TAITO_DSWC_4 : natural  := 67;
+constant C_MENU_TAITO_DSWC_5 : natural  := 68;
+constant C_MENU_TAITO_DSWC_6 : natural  := 69;
+constant C_MENU_TAITO_DSWC_7 : natural  := 70;
 
 signal old_clk      : std_logic;
 signal ce_vid       : std_logic;
@@ -246,7 +245,7 @@ signal ddram_data       : std_logic_vector(63 downto 0);
 signal ddram_be         : std_logic_vector( 7 downto 0);
 signal ddram_we         : std_logic;
 
--- ROM devices for Galaga
+-- ROM devices for the core
 signal qnice_dn_addr    : std_logic_vector(24 downto 0);
 signal qnice_dn_data    : std_logic_vector(7 downto 0);
 signal qnice_dn_wr      : std_logic;
@@ -260,6 +259,7 @@ begin
    main_power_led_col_o   <= x"00FF00";
    main_drive_led_o       <= '0';
    main_drive_led_col_o   <= x"00FF00"; 
+   
 
    -- MMCME2_ADV clock generators:
    clk_gen : entity work.clk
@@ -316,10 +316,7 @@ begin
               main_osm_control_i(C_MENU_TAITO_DSWC_2) &
               main_osm_control_i(C_MENU_TAITO_DSWC_1) &
               main_osm_control_i(C_MENU_TAITO_DSWC_0);
-   
-  --dsw_c_i <=       to do
-  
-  
+ 
    ---------------------------------------------------------------------------------------------
    -- main_clk (MiSTer core's clock)
    ---------------------------------------------------------------------------------------------
@@ -391,6 +388,9 @@ begin
     process (video_clk) -- 48 MHz
     begin
         if rising_edge(video_clk) then
+           
+            video_ce_ovl_o <= '0';
+            
             div <= std_logic_vector(unsigned(div) + 1);
             if div(0) = '1' then
                video_ce_ovl_o <= '1'; -- 24 MHz

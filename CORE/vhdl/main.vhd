@@ -137,11 +137,56 @@ constant m65_s             : integer := 13; --Service 1
 constant m65_capslock      : integer := 72; --Service Mode
 constant m65_help          : integer := 67; --Help key
 
+-- Bombtrigger
+constant C_MENU_BOMB_TRIG_EN  : natural := 79;
+constant C_MENU_BOMB_TRIG_0   : natural := 80;
+constant C_MENU_BOMB_TRIG_1   : natural := 81;
+constant C_MENU_BOMB_TRIG_2   : natural := 82;
+constant C_MENU_BOMB_TRIG_3   : natural := 83;
+constant C_MENU_BOMB_TRIG_4   : natural := 84;
+constant C_MENU_BOMB_TRIG_5   : natural := 85;
+constant C_MENU_BOMB_TRIG_6   : natural := 86;
+constant C_MENU_BOMB_TRIG_7   : natural := 87;
+constant C_MENU_BOMB_TRIG_8   : natural := 88;
+
+
+signal p1_bomb_auto : std_logic;
+signal p2_bomb_auto : std_logic;
+signal trigger_sel  : std_logic_vector(3 downto 0);
+
 begin
   
     options(0) <= osm_control_i(C_MENU_OSMPAUSE);
     options(1) <= osm_control_i(C_MENU_OSMDIM);
     flip_screen <= osm_control_i(C_MENU_FLIP);
+    
+    trigger_sel <="0000" when osm_control_i(C_MENU_BOMB_TRIG_0) = '1' else
+                  "0001" when osm_control_i(C_MENU_BOMB_TRIG_1) = '1' else
+                  "0010" when osm_control_i(C_MENU_BOMB_TRIG_2) = '1' else
+                  "0011" when osm_control_i(C_MENU_BOMB_TRIG_3) = '1' else
+                  "0100" when osm_control_i(C_MENU_BOMB_TRIG_4) = '1' else
+                  "0101" when osm_control_i(C_MENU_BOMB_TRIG_5) = '1' else
+                  "0110" when osm_control_i(C_MENU_BOMB_TRIG_6) = '1' else
+                  "0111" when osm_control_i(C_MENU_BOMB_TRIG_7) = '1' else
+                  "1000" when osm_control_i(C_MENU_BOMB_TRIG_8) = '1';
+    
+    
+    -- for player 1 and player 2 ( cocktail / table mode )
+    i_bombtrigger : entity work.bombtrigger
+    port map (
+    
+    clk_i           => clk_main_i, -- use the core's 18mhz clock
+    reset_i         => reset,
+    enable_n_i      => osm_control_i(C_MENU_BOMB_TRIG_EN),
+    -- player1                                        
+    fire1_n_i       => joy_1_fire_n_i,
+    bomb1_o         => p1_bomb_auto,
+    -- player2                                       
+    fire2_n_i       => joy_2_fire_n_i,
+    bomb2_o         => p2_bomb_auto,
+    trigger_sel_i   => trigger_sel
+        
+    );
     
 
     i_ttsj : entity work.taitosj_fpga
@@ -152,22 +197,23 @@ begin
         RED             => video_red_o,
         GREEN           => video_green_o,
         BLUE            => video_blue_o,
-        core_pix_clk    => video_ce_o,
+        core_pix_clk    => video_ce_o,       -- 6mhz out to mega65.vhd
         H_SYNC          => video_hs_o,
 	    V_SYNC          => video_vs_o,
 	    H_BLANK         => video_hblank_o,
 	    V_BLANK         => video_vblank_o,
         RESET_n         => not reset,
         pause           => pause_cpu or pause_i,
-        m_service       => keyboard_n(m65_s),
+        
+        m_service       => not keyboard_n(m65_s),
         m_coina         => keyboard_n(m65_5),
         m_start1p       => keyboard_n(m65_1),
-        m_right         => joy_1_right_n_i or keyboard_n(m65_horz_crsr),
-        m_left          => joy_1_left_n_i or keyboard_n(m65_left_crsr),
-        m_down          => joy_1_down_n_i or keyboard_n(m65_vert_crsr),
-        m_up            => joy_1_up_n_i or keyboard_n(m65_up_crsr),
-        m_shoot         => joy_1_fire_n_i or keyboard_n(m65_z),
-        m_shoot2        => joy_1_fire_n_i or keyboard_n(m65_x),
+        m_right         => joy_1_right_n_i,
+        m_left          => joy_1_left_n_i,
+        m_down          => joy_1_down_n_i,
+        m_up            => joy_1_up_n_i,
+        m_shoot         => joy_1_fire_n_i,
+        m_shoot2        => keyboard_n(m65_x) and p1_bomb_auto,
         m_coinb         => keyboard_n(m65_6),
         m_start2p       => keyboard_n(m65_2),
         DIP1            => dsw_a_i,
@@ -182,8 +228,7 @@ begin
         hs_data_in      => hs_data_in,
         hs_write        => hs_write_enable,
         audio_l         => audio_left_o,
-	    audio_r         => audio_right_o
-        
+	    audio_r         => audio_right_o  
     );
 
     i_pause : entity work.pause
