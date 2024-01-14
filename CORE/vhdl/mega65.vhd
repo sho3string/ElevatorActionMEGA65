@@ -223,6 +223,7 @@ constant C_MENU_TAITO_DSWC_7 : natural  := 70;
 
 signal old_clk      : std_logic;
 signal ce_vid       : std_logic;
+signal video_ce_ovl : std_logic;
 signal video_ce     : std_logic;
 signal div          : std_logic_vector(2 downto 0);
 signal dim_video    : std_logic;
@@ -289,6 +290,7 @@ begin
    video_hblank_o   <= video_hblank;
    video_vblank_o   <= video_vblank;  
    video_ce_o       <= ce_vid;
+   video_ce_ovl_o   <= video_ce_ovl;
    
    dsw_a_i <= main_osm_control_i(C_MENU_TAITO_DSWA_7) &
               main_osm_control_i(C_MENU_TAITO_DSWA_6) &
@@ -340,7 +342,7 @@ begin
          -- Video output
          -- This is PAL 720x576 @ 50 Hz (pixel clock 27 MHz), but synchronized to main_clk (54 MHz).
          video_ce_o           => ce_vid,-- 6mhz from MiSTer core
-         video_ce_ovl_o       => open,
+         video_ce_ovl_o       => video_ce_ovl,
          video_red_o          => main_video_red,
          video_green_o        => main_video_green,
          video_blue_o         => main_video_blue,
@@ -389,13 +391,6 @@ begin
     begin
         if rising_edge(video_clk) then
            
-            video_ce_ovl_o <= '0';
-            
-            div <= std_logic_vector(unsigned(div) + 1);
-            if div(0) = '1' then
-               video_ce_ovl_o <= '1'; -- 24 MHz
-            end if;
-
             if dim_video = '1' then
                 video_red   <= "0" & main_video_red   & main_video_red   & main_video_red(2 downto 2);
                 video_green <= "0" & main_video_green & main_video_green & main_video_green(2 downto 2);
@@ -415,47 +410,6 @@ begin
         end if;
     end process;
     
-        
-    
-    -- The video output from the core has the following (empirically determined)
-    -- parameters:
-    -- CLK_KHZ     => 6000,       -- 6 MHz
-    -- H_PIXELS    => 288,        -- horizontal display width in pixels
-    -- V_PIXELS    => 224,        -- vertical display width in rows
-    -- H_PULSE     => 29,         -- horizontal sync pulse width in pixels
-    -- H_BP        => 44,         -- horizontal back porch width in pixels
-    -- H_FP        => 23,         -- horizontal front porch width in pixels
-    -- V_PULSE     => 8,          -- vertical sync pulse width in rows
-    -- V_BP        => 12,         -- vertical back porch width in rows
-    -- V_FP        => 20,         -- vertical front porch width in rows
-    -- This corresponds to a horizontal sync frequency of 15.625 kHz
-    -- and a vertical sync frequency of 59.19 Hz.
-    --
-    -- After screen rotation the visible part therefore has a size of 224x288 pixels.
-    -- In order to display this image we need a screen resolution that is large enough.
-    -- I've chosen a down-scaled version of the standard 576p. The important values here
-    -- are the horizontal sync frequency of 15.625 kHz and the fact that I'm keeping
-    -- the pixel clock rate of 6 MHz.
-    -- The calculation is as follows: The standard 576p has the following parameters:
-    -- (see M2M/vhdl/av_pipeline/video_modes_pkg.vhd):
-    -- * pixel clock rate of 27 MHz.
-    -- * horizontal sync frequency of 31.25 kHz.
-    -- * horizontal scan line time of 1000/31.25 = 32 us.
-    -- * horizontal visible pixels 720.
-    -- * horizontal visible time 720/27 = 26.67 us.
-    -- In a non-scandoubled domain the numbers change as follows:
-    -- * horizontal sync frequency of 31.25/2 = 15.625 kHz.
-    -- * horizontal scan line time of 32*2 = 64 us.
-    -- * horizontal visible time 26.67*2 = 53.33 us.
-    -- Since we are sticking with a 6 MHz pixel rate, we get:
-    -- * horizontal visible pixels 53.33*6 = 320.
-    -- Therefore, we have a visible screen area of 320x288 pixels, and our rotated image
-    -- of 224x288 must be centered in here. This leaves a border of (320-224)/2 = 48
-    -- pixels on either side.
-    -- Nevertheless, on my VGA monitor, this video signal is recognized as
-    -- 720x288 @ 50Hz.
-   
-  
    ---------------------------------------------------------------------------------------------
    -- Audio and video settings (QNICE clock domain)
    ---------------------------------------------------------------------------------------------

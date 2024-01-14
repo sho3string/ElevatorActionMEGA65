@@ -128,7 +128,7 @@ constant m65_vert_crsr     : integer := 7;  --Player down
 constant m65_left_crsr     : integer := 74; --Player left
 constant m65_horz_crsr     : integer := 2;  --Player right
 constant m65_z             : integer := 12; --Fire
-constant m65_x             : integer := 23; -- ump
+constant m65_x             : integer := 23; --Jump
 
 
 -- Pause, credit button & test mode
@@ -175,7 +175,7 @@ begin
     i_bombtrigger : entity work.bombtrigger
     port map (
     
-    clk_i           => clk_main_i, -- use the core's 18mhz clock
+    clk_i           => clk_main_i, -- use the core's 32hz clock
     reset_i         => reset,
     enable_n_i      => osm_control_i(C_MENU_BOMB_TRIG_EN),
     -- player1                                        
@@ -198,6 +198,7 @@ begin
         GREEN           => video_green_o,
         BLUE            => video_blue_o,
         core_pix_clk    => video_ce_o,       -- 6mhz out to mega65.vhd
+        core_osd_clk    => video_ce_ovl_o,   -- 24mhz out go mega65.vhd
         H_SYNC          => video_hs_o,
 	    V_SYNC          => video_vs_o,
 	    H_BLANK         => video_hblank_o,
@@ -208,11 +209,11 @@ begin
         m_service       => not keyboard_n(m65_s),
         m_coina         => keyboard_n(m65_5),
         m_start1p       => keyboard_n(m65_1),
-        m_right         => joy_1_right_n_i,
-        m_left          => joy_1_left_n_i,
-        m_down          => joy_1_down_n_i,
-        m_up            => joy_1_up_n_i,
-        m_shoot         => joy_1_fire_n_i,
+        m_right         => joy_1_right_n_i and keyboard_n(m65_horz_crsr),
+        m_left          => joy_1_left_n_i and keyboard_n(m65_left_crsr),
+        m_down          => joy_1_down_n_i and keyboard_n(m65_vert_crsr),
+        m_up            => joy_1_up_n_i and keyboard_n(m65_up_crsr),
+        m_shoot         => joy_1_fire_n_i and keyboard_n(m65_z),
         m_shoot2        => keyboard_n(m65_x) and p1_bomb_auto,
         m_coinb         => keyboard_n(m65_6),
         m_start2p       => keyboard_n(m65_2),
