@@ -1,25 +1,25 @@
-Bosconian: Star Destroyer for MEGA65 
-====================================
+Elevator Action for MEGA65 
+==========================
 
-done in 2023 by Muse
+done in 2024 by Muse
 	* Muse       github.com/sho3string
 	* sy2002     github.com/sy2002     www.sy2002.de
     	* MJoergen   github.com/MJoergen
 
-BosconianMEGA65 is licensed under the terms of GNU/GPL v3, for more information please read the file LICENSE
+ElevatorActionMEGA65 is licensed under the terms of GNU/GPL v3, for more information please read the file LICENSE
 Parts of GalagaMEGA65 are licensed under other Free-software licenses as described in the source code
 
-BosconianMEGA65:
-----------------
+ElevatorActionMEGA65:
+---------------------
 
-  BosconianMEGA65 is a port of Arcade-Bosconian_MiSTer
+  ElevatorActionMEGA65 is a port of Arcade-Bosconian_MiSTer
       done by the MiSTer Development Team
-      Original GitHub Repository: https://github.com/MiSTer-devel/Arcade-Bosconian_MiSTer
-      Contributors:
-      * NolanNicholson
+      Original GitHub Repository: https://github.com/Arcade-TaitoSystemSJ_MiSTer
+      Contributors: https://github.com/MiSTer-devel/Arcade-TaitoSystemSJ_MiSTer/graphs/contributors
+      * antongale, funkycochise and tmznix
 
-Other than that and my own work, BosconianMEGA65 uses:
----------------------------------------------------
+Other than that and my own work, ElevatorActionMEGA65 uses:
+-----------------------------------------------------------
 
   * MiSTer2MEGA65 by The MiSTer2MEGA65 Development Team
     https://github.com/sy2002/MiSTer2MEGA65
