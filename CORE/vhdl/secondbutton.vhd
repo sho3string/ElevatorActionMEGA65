@@ -21,10 +21,10 @@ end entity bombtrigger;
 
 architecture synthesis of bombtrigger is
 
--- based on 18mhz * 0.25s = 8,000,000 - default setting.    
-signal bomb1_trigger_count : integer range 0 to 18000000 ; -- Counter for a maximum of 0.50 seconds at 32mhz
-signal bomb2_trigger_count : integer range 0 to 18000000 ;
-signal bomb_delay          : integer range 0 to 18000000 ; -- Delay setting from OSM
+-- based on 32hz * 0.25s = 8,000,000 - default setting.    
+signal bomb1_trigger_count : integer range 0 to 16000000 ; -- Counter for a maximum of 0.50 seconds at 32mhz
+signal bomb2_trigger_count : integer range 0 to 16000000 ;
+signal bomb_delay          : integer range 0 to 16000000 ; -- Delay setting from OSM
 
 begin
 process (clk_i,fire1_n_i,fire2_n_i)
@@ -35,14 +35,14 @@ begin
        
            -- check the delay setting from the OSM.
            bomb_delay <= 0  when trigger_sel_i = "0000" else     -- no delay 
-                   5400000  when trigger_sel_i = "0001" else     -- 0.15s
-                   7200000  when trigger_sel_i = "0010" else     -- 0.20s
-                   9000000  when trigger_sel_i = "0011" else     -- 0.25s
-                   10800000 when trigger_sel_i = "0100" else     -- 0.30s
-                   12600000 when trigger_sel_i = "0101" else     -- 0.35s
-                   14400000 when trigger_sel_i = "0110" else     -- 0.40s
-                   16200000 when trigger_sel_i = "0111" else     -- 0.45s
-                   18000000 when trigger_sel_i = "1000";         -- 0.50s
+                   4800000  when trigger_sel_i = "0001" else     -- 0.15s
+                   6400000  when trigger_sel_i = "0010" else     -- 0.20s
+                   8000000  when trigger_sel_i = "0011" else     -- 0.25s
+                   9600000 when trigger_sel_i  = "0100" else     -- 0.30s
+                   11200000 when trigger_sel_i = "0101" else     -- 0.35s
+                   12280000 when trigger_sel_i = "0110" else     -- 0.40s
+                   14400000 when trigger_sel_i = "0111" else     -- 0.45s
+                   16000000 when trigger_sel_i = "1000";         -- 0.50s
            
            if reset_i = '1' then
               bomb1_trigger_count <= bomb_delay;
