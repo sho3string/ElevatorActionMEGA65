@@ -3,18 +3,32 @@ setlocal
 
 set "outputFile1=pad4096.bin"
 set "outputFile2=pad3840.bin"
+set "outputFile3=eacfg"
 set "length1=4096"
 set "length2=3840"
+set "length3=93"
+
+echo "Create the cfg file"
+type nul > temp.txt
+:: Fill the file with zeros
+for /L %%i in (1, 1, %length3%) do (
+	echo ff >> temp.txt )
+certutil -f -decodehex temp.txt %outputFile3% >nul
+del temp.txt
 
 
 echo "Create files used for padding"
 fsutil file createnew %outputFile1% %length1%
 fsutil file createnew %outputFile2% %length2%
 
+
 echo File %outputFile1% created with %length1% bytes.
 echo File %outputFile2% created with %length2% bytes.
 
+
+
 endlocal
+
 
 echo "Create the maincpu rom."
 copy /b eabl_12.2732.ic69+ea_13.2732.ic68+ea_14.2732.ic67+eabl_15.2732.ic66+ea_16.2732.ic65+ea_17.2732.ic64+eabl_18.2732.ic55+eabl_19.2732.ic54 maincpu.rom
