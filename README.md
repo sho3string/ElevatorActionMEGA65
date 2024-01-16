@@ -30,27 +30,31 @@ How to install the core
 1. **Download ROM**: Download the Bosconian MAME ROM ZIP file (do not unzip!) from the internet.
    Search for the Elevator Action bootleg rom ( elevatorb ).
  
-3. **Download the batch script**: Download the provided Python script that
-   prepares the ROMs
-   [Link](https://github.com/sho3string/ElevatorActionMEGA65/blob/master/ElevatorAction_rom_installer.bat).
+3. **Download the batch or shell script**:
+   a. [Link](https://github.com/sho3string/ElevatorActionMEGA65/blob/master/ElevatorAction_rom_installer.bat) ( For Windows  )
+   b. [Link](https://github.com/sho3string/ElevatorActionMEGA65/blob/master/ElevatorAction_rom_installer.sh)  ( For Unix/Linux/MacOS )
 
-4. **Run the Batch script**: First extract all the files within the zip to any folder. Execute the batch script within this folder to create the following roms.
-   maincpu.rom, bankedcpu.rom, soundcpu.rom, video.rom and later.rom
+4. **Run the script**:  
+   a) First extract all the files within the zip to any working folder.  
    
-   Use the command `ElevatorAction_rom_installer.bat` .
+   b) Copy the batch or shell script to the same folder and execute it to create the following roms => maincpu.rom, bankedcpu.rom, soundcpu.rom, video.rom, layer.rom and eacfg  
+   
+   For Windows  
+    `ElevatorAction_rom_installer.bat`  
+       
+   For Unix/Linux/MacOS  
+   `./ElevatorAction_rom_installer.sh` 
 
-7. **Copy the ROMs to your MEGA65 SD card**: Copy the generated folder with
-   the ROMs to your MEGA65 SD card. You can use either the bottom SD card tray
-   of the MEGA65 or the tray at the backside of the computer (the latter has
-   precedence over the first).
-   The ROMs need to be in the folder `arcade/elevator`.
+5. **Copy the ROMs to your MEGA65 SD card**: Copy the files with your generated ROMs tothe MEGA65 SD card. You can use either the bottom SD card tray
+of the MEGA65 or the tray at the backside of the computer (the latter has precedence over the first).
+   '**maincpu.rom, bankedcpu.rom, soundcpu.rom, video.rom, layer.rom and eacfg**' need to be in the folder `arcade/elevator` on the SD card or the game will not run.
 
 
-8. **Setting up dip switches**
+6. **Setting up dip switches**
 
-   Gto Game Setup after pressing the 'HELP' key, set the individual dip switches for that version in the dip section. There are three dipswitch settings.
+   Enter the Game Setup by pressing the 'HELP' key, set the individual dip switches for that version in the dip section. There are three dipswitch settings.
 
-   See below for description of dip settings.
+   See below for description of dip settings to customise your game.
    
    https://www.arcade-museum.com/dipswitch-settings/7700.html
 
