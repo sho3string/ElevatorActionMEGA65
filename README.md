@@ -27,7 +27,7 @@ on-screen-menu.
 How to install the core
 -----------------------
 
-1. **Download ROM**: Download the Bosconian MAME ROM ZIP file (do not unzip!) from the internet.
+1. **Download ROM**: Download the Elevator Action MAME ROM ZIP file (do not unzip!) from the internet.
    Search for the Elevator Action bootleg rom ( elevatorb ).
  
 3. **Download the batch or shell script**:
