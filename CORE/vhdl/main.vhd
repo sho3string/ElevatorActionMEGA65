@@ -134,7 +134,6 @@ constant m65_x             : integer := 23; --Jump
 -- Pause, credit button & test mode
 constant m65_p             : integer := 41; --Pause button
 constant m65_s             : integer := 13; --Service 1
-constant m65_capslock      : integer := 72; --Service Mode
 constant m65_help          : integer := 67; --Help key
 
 -- Bombtrigger

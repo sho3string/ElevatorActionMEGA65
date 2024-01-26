@@ -88,9 +88,8 @@ constant SCR_WELCOME : string :=
    "Credits  : Press '5' or '6'\n"        & 
    "Start    : Press '1' or '2'\n"        &
    "Pause    : Press 'p'\n"               &
-   "Controls : Joy 1,arrows & z x\n"      &
+   "Controls : Joy 1,arrows & z+x\n"      &
    "Svc 1    : Press 's' \n"              &
-   "Svc Mode : Caps-Lock on\n"            &
    "\n\n    Press Space to continue.\n"; 
    
 constant HELP_1 : string :=
@@ -554,13 +553,13 @@ constant OPTM_GROUPS       : OPTM_GTYPE := ( OPTM_G_TEXT + OPTM_G_HEADLINE,     
                                              OPTM_G_TEXT + OPTM_G_HEADLINE,                          
                                              OPTM_G_LINE,        
                                              OPTM_G_SUBMENU,                                            -- Bombtrigger sub menu
-                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Bonbtrigger title
+                                             OPTM_G_TEXT + OPTM_G_HEADLINE,                             -- Bombtrigger title
                                              OPTM_G_LINE,                                               -- Line
                                              OPTM_G_BOMB_TRIG,                                          -- bombtrigger enable
                                              OPTM_G_BOMB_TRIG,                                          -- 0ms
-                                             OPTM_G_BOMB_TRIG,                                          -- 150ms
+                                             OPTM_G_BOMB_TRIG    + OPTM_G_STDSEL,                       -- 150ms
                                              OPTM_G_BOMB_TRIG,                                          -- 200ms
-                                             OPTM_G_BOMB_TRIG    + OPTM_G_STDSEL,                       -- 250ms
+                                             OPTM_G_BOMB_TRIG,                                          -- 250ms
                                              OPTM_G_BOMB_TRIG,                                          -- 300ms 
                                              OPTM_G_BOMB_TRIG,                                          -- 350ms
                                              OPTM_G_BOMB_TRIG,                                          -- 400ms
